@@ -1,0 +1,17 @@
+{
+  "name": "job-api",
+  "version": "1.0.0",
+  "description": "API managing job data for the application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --inspect=0.0.0.0:9229 server/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.6.0",
+    "config": "^3.3.9",
+    "koa": "^2.14.1"
+  }
+}

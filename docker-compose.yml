@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./backend/
+      args:
+        NODE_VERSION: ${NODE_VERSION}
+    ports:
+      - 3000:3000
+      - 9229:9229 # dbg (dev env)
+    environment:
+     - NODE_ENV=local
+     - ES_HOST=${ELASTIC_HOST}
+     - ES_PASSWORD=${ELASTIC_PASSWORD}
+     - PORT=3000
+    volumes:
+      - ./data/jobs:/usr/src/app/jobs
+
+  frontend:
+     container_name: frontend
+     build:
+      context: ./frontend
+     ports:
+       - 8080:80
+     volumes:
+       - ./frontend/src:/code/src:ro
+
+  elasticsearch:
+    container_name: ${ELASTIC_HOST}
+    build:
+      context: ./services/elasticsearch/
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    volumes:
+      - ./services/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+      - ./services/elasticsearch:/usr/share/elasticsearch/data:Z
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      node.name: elasticsearch
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms1024m -Xmx1024m"
+    restart: unless-stopped

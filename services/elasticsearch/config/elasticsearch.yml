@@ -1,0 +1,19 @@
+---
+## Default Elasticsearch configuration from Elasticsearch base image.
+## https://github.com/elastic/elasticsearch/blob/main/distribution/docker/src/docker/config/elasticsearch.yml
+#
+cluster.name: docker-cluster
+network.host: 0.0.0.0
+
+## X-Pack settings
+## see https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html
+#
+http.port: 9200
+http.cors.enabled: true
+http.cors.allow-headers: X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization,Accept,Access-Control-Allow-Headers
+http.cors.allow-origin: '*'
+http.cors.allow-credentials: true
+
+xpack.security.enabled: false
+xpack.security.http.ssl.enabled: false
+ingest.geoip.downloader.enabled: false
